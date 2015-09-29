@@ -22,7 +22,7 @@ public class projectile {
 	private float angle;
 	private float travelDistance;
 	private float maxDistance;
-	private boolean dead = false;
+	protected boolean dead = false;
 	private Rectangle2D.Float hitbox;
 
 	public projectile(MyGdxGame game2, player owner, int radius, float speed, Color color, float maxDistance, float angle, int damage)
@@ -77,11 +77,6 @@ public class projectile {
 			dead = true;
 		}
 		hitbox.setFrame(x, y, radius, radius);
-	}
-	
-	public boolean isDead()
-	{
-		return dead;
 	}
 	
 	public boolean isTouching()

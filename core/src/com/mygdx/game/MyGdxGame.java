@@ -71,7 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		for(int i = 0; i < projectiles.size(); i++)
 		{
 			projectiles.get(i).update();
-			if(projectiles.get(i).isDead() == true)
+			if(projectiles.get(i).dead == true)
 			{
 				projectiles.get(i).die(); // [Cata] This will prevent crashes and safely loop.
 			}
@@ -102,7 +102,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void removeDeadThings()
 	{
 		for(int i = projectiles.size() - 1; i >= 0; i--)
-			if(projectiles.get(i).isDead() == true)
+			if(projectiles.get(i).dead == true)
 				projectiles.remove(i);
 
 		for(int j = monsters.size() - 1; j >= 0; j--)
