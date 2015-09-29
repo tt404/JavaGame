@@ -17,6 +17,7 @@ public class monster {
 	protected float maxRoamDist;
 	protected Rectangle2D hitbox;
 	protected String name;
+	protected boolean dead;
 	private MyGdxGame game;
 
 	protected SpriteBatch batch;
@@ -65,6 +66,8 @@ public class monster {
 		hitbox.setFrame(x, y, radius, radius);
 		font = new BitmapFont();
 		batch = new SpriteBatch();
+        game.monsters.add(this);
+        dead = false;
 	}
 	
 	public void render()
@@ -118,5 +121,11 @@ public class monster {
 	public void addAttackablePlayer(player who)
 	{
 		attackablePlayers.add(who);
+	}
+
+	// [Cata] Added this to prevent crashes during projectile damage logic.
+	public void die()
+	{
+		dead = true;
 	}
 }

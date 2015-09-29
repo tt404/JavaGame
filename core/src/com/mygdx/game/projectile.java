@@ -98,4 +98,10 @@ public class projectile {
 	{
 		return damage;
 	}
+	
+	// [Cata] Added this to prevent crashes during projectile damage logic.
+	public void die()
+	{
+		dead = true;
+	}
 }

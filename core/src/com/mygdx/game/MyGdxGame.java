@@ -73,7 +73,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			projectiles.get(i).update();
 			if(projectiles.get(i).isDead() == true)
 			{
-				projectiles.remove(i);
+				projectiles.get(i).die(); // [Cata] This will prevent crashes and safely loop.
 			}
 		}
 
@@ -94,38 +94,49 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Do logic for projectile damage.
 		if(projectiles.size() > 0 && monsters.size() > 0)
 			doProjectileDamageLogic();
+		
+		// [Cata] Projectile / Monster remover.
+		removeDeadThings();
+	}
+	
+	public void removeDeadThings()
+	{
+		for(int i = projectiles.size() - 1; i >= 0; i--)
+			if(projectiles.get(i).isDead() == true)
+				projectiles.remove(i);
+
+		for(int j = monsters.size() - 1; j >= 0; j--)
+			if(monsters.get(j).dead == true)
+				monsters.remove(j);	
 	}
 	
 	public void doProjectileDamageLogic()
 	{
-		for(int i = 0; i < projectiles.size(); i++)
+		for(int curProj = projectiles.size() - 1; curProj >= 0; curProj--)
 		{
-			for(int j = 0; j < monsters.size(); j++)
+			for(int curMon = monsters.size() - 1; curMon >= 0; curMon--)
 			{
-				if(monsters.get(j).getHitbox().intersects(projectiles.get(i).getHitbox()))
+				if(monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
 				{
-					//simplifying for the sake of sanity lol
-					projectile proj = projectiles.get(i);
-					monster mon = monsters.get(j);
-					int[] flags = mon.getFlags();
+					int[] flags = monsters.get(curMon).getFlags();
 					
 					//dont do damage if monster is invulnerable.
-					if(flags[mon.invulnerable] == 1)
+					if(flags[monsters.get(curMon).invulnerable] == 1)
 						return;
 					
 					//damage the monster and destroy the projectile
-					monsters.get(j).damage(projectiles.get(j).getDamage());
-					projectiles.remove(i);
+					monsters.get(curMon).damage(projectiles.get(curProj).getDamage());
+					projectiles.get(curProj).die();
 					
-					//set the monster to aggro whoever attacked it
+					//TODO: set the monster to aggro whoever attacked it
 					
 					
 					//kill monster if its health is low
-					if(monsters.get(j).getCurHealth() <= 0)
-						monsters.remove(j);
+					if(monsters.get(curMon).getCurHealth() <= 0)
+						monsters.get(curMon).die();
 				}
 			}
-		}
+		}	
 	}
 	
 	public float distance(double x1, double y1, double x2, double y2) 

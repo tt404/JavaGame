@@ -19,7 +19,6 @@ public class inventoryMonsterSpawner extends inventory {
 	{
 		if(owner.checkEquipped(this) == false) return;
         monsterGoblin spawn = new monsterGoblin(game, owner.getMouse().x, owner.getMouse().y);
-        game.monsters.add(spawn);
         canFire = false;
 		Timer.schedule(new Task(){
 		    public void run() {
