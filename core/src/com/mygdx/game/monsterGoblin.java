@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class monsterGoblin extends monster {
-	private ShapeRenderer monsterShape;
 	
 	public monsterGoblin(MyGdxGame game, float x, float y) {
 		super(game, x, y);
@@ -39,6 +38,7 @@ public class monsterGoblin extends monster {
 	
 	public void render()
 	{
+		super.render();	// [Cata] Renders health bar.
 		this.batch.begin();
 		this.font.setColor(Color.WHITE);
 		this.font.draw(batch, this.name, x , y);

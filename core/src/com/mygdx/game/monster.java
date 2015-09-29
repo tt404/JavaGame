@@ -3,9 +3,11 @@ package com.mygdx.game;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class monster {
 	protected float x, spawnX, centerX;
@@ -20,7 +22,9 @@ public class monster {
 	protected String name;
 	protected boolean dead;
 	private MyGdxGame game;
-
+	protected ShapeRenderer monsterShape;
+	protected ShapeRenderer healthBar;
+	
 	protected SpriteBatch batch;
 	protected BitmapFont font;
 
@@ -77,10 +81,25 @@ public class monster {
 		batch = new SpriteBatch();
         game.monsters.add(this);
         dead = false;
+        healthBar = new ShapeRenderer();
+        flags[curState] = idle;
 	}
 	
 	public void render()
 	{	
+		// [Cata] Don't render the healthbar if monster is idle.
+		if(flags[curState] == idle) return;
+
+		// [Cata] we now render health bars
+		healthBar.begin(ShapeType.Filled);	// [Cata] This begins the shapemaking magic
+		
+		healthBar.setColor(Color.RED);		// [Cata] Whatever we're gonna make is now the color red.
+		healthBar.rect(x, y + radius + 8, radius, 6); // [Cata] Places the filled red rectangle. Ie, the background.
+
+		healthBar.setColor(Color.GREEN); 	// [Cata] Sets the current color to green. 
+		healthBar.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
+
+		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.
 	}
 	
 	public void update()
