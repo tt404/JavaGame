@@ -9,7 +9,7 @@ public class inventoryLaserGun extends inventory {
 	public inventoryLaserGun(MyGdxGame myGdxGame, player owner) {
 		super(myGdxGame, owner);
 		this.ID = 1;
-		this.delayTime = 0.75f;
+		this.delayTime = 0.5f;								//[chi]  increzsed speed1
 		this.inventorySprite = "laserGunInventory.png";
 		this.canFire = true;
 		this.canDrop = true;
