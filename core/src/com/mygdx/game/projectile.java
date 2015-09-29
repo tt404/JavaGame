@@ -16,8 +16,8 @@ public class projectile {
 	private int damage;
 	private float speed;
 	private Color color;
-	private player owner;
-	private monster owner2;
+	protected player player = null;	// [Cata] to keep track of who attacked.
+	protected monster monster = null;	// [Cata] Same as above.
 	private ShapeRenderer shapeRenderer;
 	private float angle;
 	private float travelDistance;
@@ -31,7 +31,7 @@ public class projectile {
 		this.radius = radius;
 		this.speed = speed;
 		this.color = color;
-		this.owner = owner;
+		this.player = owner;
 		this.x = owner.getX() + (owner.getRadius() / 2);
 		this.y = owner.getY() + (owner.getRadius() / 2);
 		this.angle = angle;
@@ -47,7 +47,7 @@ public class projectile {
 		this.radius = radius;
 		this.speed = speed;
 		this.color = color;
-		this.owner2 = owner;
+		this.monster = owner;
 		this.x = owner.getX() + (owner.getRadius() / 2);
 		this.y = owner.getY() + (owner.getRadius() / 2);
 		this.angle = angle;

@@ -124,8 +124,16 @@ public class MyGdxGame extends ApplicationAdapter {
 					if(flags[monsters.get(curMon).invulnerable] == 1)
 						return;
 					
-					//damage the monster and destroy the projectile
-					monsters.get(curMon).damage(projectiles.get(curProj).getDamage());
+					// [Cata] Damage monsters only if players have fired the projectile.
+					//		  This means there is no teamkilling between monsters.
+					if(projectiles.get(curProj).monster == null)
+					{
+						monsters.get(curMon).damage(projectiles.get(curProj).getDamage(), projectiles.get(curProj).player); // [Cata] This actually damages the monster.
+						monsters.get(curMon).setPlayerTarget(projectiles.get(curProj).player); // [Cata] Now the monster is targetting the player who recently damaged it.
+					}
+
+					// [Cata] The projectile will die even if it damaged nothing. Meaning you
+					//		  can use monsters to body block projectiles.
 					projectiles.get(curProj).die();
 					
 					//TODO: set the monster to aggro whoever attacked it
