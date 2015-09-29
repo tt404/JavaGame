@@ -13,7 +13,7 @@ public class monsterGoblin extends monster {
 		super(game, x, y);
 		this.flags[behavior] = neutral;
 		this.flags[attackStyle] = withinProjectileRange;
-		this.baseHealth = this.curHealth = 25;
+		this.baseHealth = this.curHealth = 40;			//Bang He's tougher now [YASSSSS]
 		this.radius = 48;
 		this.name = "Goblin";
 		monsterShape = new ShapeRenderer();
