@@ -9,7 +9,7 @@ public class inventoryRustySword extends inventory {
 	public inventoryRustySword(MyGdxGame myGdxGame, player owner) {
 		super(myGdxGame, owner);
 		this.ID = 2;
-		this.delayTime = 0.3f;
+		this.delayTime = 0.3f;	// [Cata] Increased speed.
 		this.inventorySprite = "rustySwordInventory.png";
 		this.canFire = true;
 		this.canDrop = true;
