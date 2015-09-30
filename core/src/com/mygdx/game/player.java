@@ -17,7 +17,8 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 public class player {
 	private float baseSpeed;
-	private int health;
+	private int baseHealth;
+	private int curHealth;
 	private SpriteBatch batch;
 	private ShapeRenderer playerShape;
 	private float x;
@@ -27,6 +28,7 @@ public class player {
 	private Vector2 angleVector;
 	private MyGdxGame game;
 	private int ID;
+	private boolean displayHealth;
 	private ArrayList<inventory> playerInventory = new ArrayList<inventory>();
 	private ArrayList<InventorySlot> playerInventorySquares = new ArrayList<InventorySlot>();
 	private int selectedWeapon = 0;
@@ -47,12 +49,14 @@ public class player {
 	private Rectangle2D hitbox;
 	mouse playerCrosshair;
 	inventory emptyspace;
+	private Timer healthTimer;		// [Cata] This is a timer to display health above the player during combat.
+	private Task healthTimerTask; 	// [Cata] This is the action being done once the timer has finished counting down.
 
 	public player(MyGdxGame myGdxGame, int ID, float baseSpeed, int health, int crosshairType) {
 
 		// *******initializes the player
 		this.baseSpeed = baseSpeed;
-		this.health = health;
+		this.baseHealth = this.curHealth = health;	// [Cata] base health is ur max health, cur health is ur current health.
 		radius = 48;
 		x = Gdx.graphics.getWidth() / 2;
 		y = Gdx.graphics.getHeight() / 2;
@@ -63,6 +67,12 @@ public class player {
 		this.ID = ID;
 		playerCrosshair = new mouse(myGdxGame, this, crosshairType);
 		hitbox = new Rectangle2D.Float();
+		healthTimer = new Timer();
+		healthTimerTask = new Task(){
+		    public void run() {
+		        displayHealth = false;
+			};
+		};
 
 		// *********for various messages.
 		font = new BitmapFont();
@@ -95,6 +105,16 @@ public class player {
 		if (game.debug == true) {
 			playerShape.setColor(Color.GREEN);
 			playerShape.rectLine(x + (radius / 2), y + (radius / 2), Gdx.input.getX(), getMouse().getY(), 8);
+		}
+		
+		// [Cata] Squeeze in a healthbar render here...		
+		if(displayHealth == true)
+		{
+			playerShape.setColor(Color.RED);		// [Cata] Whatever we're gonna make is now the color red.
+			playerShape.rect(x, y + radius + 8, radius, 6); // [Cata] Places the filled red rectangle. Ie, the background.
+
+			playerShape.setColor(Color.GREEN); 	// [Cata] Sets the current color to green. 
+			playerShape.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
 		}
 
 		playerShape.end();
@@ -448,5 +468,26 @@ public class player {
 	public Rectangle2D getHitbox()
 	{
 		return hitbox;
+	}
+	
+	// [Cata] A timer to display the bar
+	public void combatIndicatorHelper()
+	{
+		if(displayHealth == false)
+		{
+			displayHealth = true;
+			runHealthTimer();
+		}
+		else
+		{
+			healthTimerTask.cancel();
+			runHealthTimer();
+		}
+
+	}
+	
+	public void runHealthTimer()
+	{
+		healthTimer.schedule(healthTimerTask, 3.0f);		
 	}
 }

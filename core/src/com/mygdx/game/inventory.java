@@ -31,6 +31,7 @@ public class inventory {
 		{
 			//System.out.println("lol");
 			fireGo();
+			owner.combatIndicatorHelper(); // [Cata] mark the player as "in combat"
 		}
 			//System.out.println("canfire = " + canFire + "\nTouching UI = " + owner.isMouseTouchingUI() + "\ndropped items touch = " + owner.getMouse().isMouseTouchingDroppedItems());
 	}
