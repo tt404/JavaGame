@@ -486,6 +486,13 @@ public class player {
 
 	}
 	
+	// [Cata] Taking damage now triggers the overhead healthbar.
+	public void damage(int amount, monster who)
+	{
+		curHealth -= amount;
+		combatIndicatorHelper();
+	}
+	
 	public void runHealthTimer()
 	{
 		healthTimer.schedule(healthTimerTask, 3.0f);		
