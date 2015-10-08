@@ -27,7 +27,7 @@ public class monsterGoblin extends monster {
 		this.maxRoamDist = 640; 			// [Cata] How far can it leave spawn to go kill people?
 		this.minAttackDist = radius * 2;	// [Cata] How far does it have to be before attacking? This also stops the monster from
 											// "hugging" the player.
-		this.name = "Goblin";				// [Cata] Yes.
+		this.name = "Fighter Goblin";		// [Cata] Yes.
 		
 		//Its shots...
 		defaultProjectile = new projectile(game, this, 10, 24, Color.LIGHT_GRAY, radius*2, angle, 10);
