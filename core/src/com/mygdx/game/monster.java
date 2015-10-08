@@ -3,11 +3,13 @@ package com.mygdx.game;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 
 public class monster {
 	protected float x, spawnX, centerX;
@@ -21,9 +23,13 @@ public class monster {
 	protected float minAttackDist;	// [Cata] Stops the monster from getting too close to the player. Optimal attacking range basically.
 	protected String name;
 	protected boolean dead;
-	private MyGdxGame game;
+	protected MyGdxGame game;
 	protected ShapeRenderer monsterShape;
 	protected ShapeRenderer healthBar;
+	protected Vector2 angleVector;
+	protected float angle;
+	protected projectile defaultProjectile;
+	protected boolean canFire = true;
 	
 	protected SpriteBatch batch;
 	protected BitmapFont font;
@@ -32,7 +38,7 @@ public class monster {
 	protected player curPlayerTarget;
 	protected monster curMonsterTarget;
 	
-	protected int[] flags;
+	protected float[] flags;
 	
 	//0 = Aggressive; 1 = neutral; 2 = friendly
 	protected static final int behavior = 0;
@@ -53,9 +59,9 @@ public class monster {
 	//1 = attack even if out of range;
 	//2 = attack only if target is maxrange/2 distance away.
 	protected static final int attackStyle = 4;
-	protected static final int withinProjectileRange = 0;
-	protected static final int alwaysAttack = 1;
-	protected static final int withinHalfProjectileRange = 2;
+	protected static final int withinProjectileRange = 0;		// [Cata] only attack if player is within projectile range.
+	protected static final int alwaysAttack = 1;				// [Cata] mindlessly attack even if player isn't in range
+	protected static final int withinHalfProjectileRange = 2;	// [Cata] attack only if the player is very close
 	
 	protected static final int movementStyle = 5; // [Cata] Default movement pattern.
 	protected static final int mindlessChase = 0; // [Cata] Chases mindlessly.
@@ -69,7 +75,7 @@ public class monster {
 	
 	public monster(MyGdxGame game, float x2, float y2)
 	{
-		flags = new int[flagSize];
+		flags = new float[flagSize];
 		this.game = game;
 		x = x2;
 	    y = y2;
@@ -83,6 +89,7 @@ public class monster {
         dead = false;
         healthBar = new ShapeRenderer();
         flags[curState] = idle;
+        angleVector = new Vector2();
 	}
 	
 	public void render()
@@ -130,12 +137,34 @@ public class monster {
 			    else if(centerY <= spawnY) y++;
 				else y--;
 			}
+			
+			angleVector.x = spawnX - (x + (radius / 2));
+			angleVector.y = spawnY - (y + (radius / 2));
+			angle = angleVector.angle();		
 		}
 		
 		
 		if(attackablePlayers.size() == 0 || curPlayerTarget == null)
 			return;
 		
+		// [Cata] This is the logic for attacking.
+		if(flags[attackStyle] == withinProjectileRange)
+		{
+			if(game.distance(centerX, centerY, curPlayerTarget.getCenterX(), curPlayerTarget.getCenterY()) <= defaultProjectile.travelDistance)
+				fire();
+				
+		}
+		else if(flags[attackStyle] == withinHalfProjectileRange)
+		{
+			if(game.distance(centerX, centerY, curPlayerTarget.getCenterX(), curPlayerTarget.getCenterY()) <= defaultProjectile.travelDistance / 2)
+				fire();			
+		}
+		else
+		{
+			fire();
+		}
+		
+			
 		// [Cata] This is the ai for mindlessChase movement.
 		if(flags[movementStyle] == mindlessChase)
 		{
@@ -154,6 +183,10 @@ public class monster {
 				else if(centerY <= curPlayerTarget.getCenterY()) y++;
 				else y--;
 			}
+
+			angleVector.x = curPlayerTarget.getCenterX() - (x + (radius / 2));
+			angleVector.y = curPlayerTarget.getCenterY() - (y + (radius / 2));
+			angle = angleVector.angle();		
 		}
 	}
 	
@@ -236,7 +269,7 @@ public class monster {
 		curPlayerTarget = target;
 	}
 	
-	public int[] getFlags()
+	public float[] getFlags()
 	{
 		return flags;
 	}
@@ -254,5 +287,10 @@ public class monster {
 	public void die()
 	{
 		dead = true;
+	}
+	
+	// [Cata] Needed so monsters can inherit this function
+	public void fire()
+	{
 	}
 }

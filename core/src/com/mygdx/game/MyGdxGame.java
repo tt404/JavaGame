@@ -44,17 +44,25 @@ public class MyGdxGame extends ApplicationAdapter {
 			if(players.get(0).canRender(itemObjects.get(i).getX(), itemObjects.get(i).getY()) == true)
 			itemObjects.get(i).render();
 		}
+
+		// [Cata] render all projectiles first.
+		for(int i = 0; i < projectiles.size(); i++)
+		{
+			//if(projectiles.get(i).player == null)
+				projectiles.get(i).render();
+		}
 		
 		for(int i = 0; i < monsters.size(); i++)
 		{
 			monsters.get(i).render();
 		}
-		
+		/*
 		for(int i = 0; i < projectiles.size(); i++)
 		{
-			projectiles.get(i).render();
+			if(projectiles.get(i).monster == null)
+				projectiles.get(i).render();
 		}
-		
+		*/
 		for(int i = 0; i < players.size(); i++)
 		{
 			players.get(i).render();
@@ -116,9 +124,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			for(int curMon = monsters.size() - 1; curMon >= 0; curMon--)
 			{
-				if(monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
+				if(projectiles.get(curProj).monster == null && monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
 				{
-					int[] flags = monsters.get(curMon).getFlags();
+					float[] flags = monsters.get(curMon).getFlags();
 					
 					//dont do damage if monster is invulnerable.
 					if(flags[monsters.get(curMon).invulnerable] == 1)
@@ -126,11 +134,8 @@ public class MyGdxGame extends ApplicationAdapter {
 					
 					// [Cata] Damage monsters only if players have fired the projectile.
 					//		  This means there is no teamkilling between monsters.
-					if(projectiles.get(curProj).monster == null)
-					{
-						monsters.get(curMon).damage(projectiles.get(curProj).getDamage(), projectiles.get(curProj).player); // [Cata] This actually damages the monster.
-						monsters.get(curMon).setPlayerTarget(projectiles.get(curProj).player); // [Cata] Now the monster is targetting the player who recently damaged it.
-					}
+					monsters.get(curMon).damage(projectiles.get(curProj).getDamage(), projectiles.get(curProj).player); // [Cata] This actually damages the monster.
+					monsters.get(curMon).setPlayerTarget(projectiles.get(curProj).player); // [Cata] Now the monster is targetting the player who recently damaged it.
 
 					// [Cata] The projectile will die even if it damaged nothing. Meaning you
 					//		  can use monsters to body block projectiles.
@@ -143,6 +148,15 @@ public class MyGdxGame extends ApplicationAdapter {
 					if(monsters.get(curMon).getCurHealth() <= 0)
 						monsters.get(curMon).die();
 				}
+			}
+			for(int curPlayer = players.size() - 1; curPlayer >= 0; curPlayer--)
+			{
+				if(projectiles.get(curProj).player == null && players.get(curPlayer).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
+				{
+					players.get(curPlayer).damage(projectiles.get(curProj).getDamage(), projectiles.get(curProj).monster);
+					projectiles.get(curProj).die();	
+					//TODO: Kill the player if his health falls too low.
+				}				
 			}
 		}	
 	}

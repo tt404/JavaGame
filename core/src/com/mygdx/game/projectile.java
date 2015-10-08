@@ -10,18 +10,18 @@ import com.badlogic.gdx.math.Vector2;
 
 public class projectile {
 	private MyGdxGame game;
-	private float x;
-	private float y;
-	private int radius;
-	private int damage;
-	private float speed;
+	protected float x;
+	protected float y;
+	protected int radius;
+	protected int damage;
+	protected float speed;
 	private Color color;
 	protected player player = null;	// [Cata] to keep track of who attacked.
 	protected monster monster = null;	// [Cata] Same as above.
-	private ShapeRenderer shapeRenderer;
-	private float angle;
-	private float travelDistance;
-	private float maxDistance;
+	protected ShapeRenderer shapeRenderer;
+	protected float angle;
+	protected float travelDistance;
+	protected float maxDistance;
 	protected boolean dead = false;
 	private Rectangle2D.Float hitbox;
 
@@ -32,8 +32,8 @@ public class projectile {
 		this.speed = speed;
 		this.color = color;
 		this.player = owner;
-		this.x = owner.getX() + (owner.getRadius() / 2);
-		this.y = owner.getY() + (owner.getRadius() / 2);
+		this.x = owner.getX() + (owner.getRadius() / 2) - (radius/2);
+		this.y = owner.getY() + (owner.getRadius() / 2) + (radius/2);
 		this.angle = angle;
 		this.maxDistance = maxDistance;
 		this.damage = damage;
@@ -48,10 +48,12 @@ public class projectile {
 		this.speed = speed;
 		this.color = color;
 		this.monster = owner;
-		this.x = owner.getX() + (owner.getRadius() / 2);
-		this.y = owner.getY() + (owner.getRadius() / 2);
+		this.x = owner.getX() + (owner.getRadius() / 2) - (radius/2);
+		this.y = owner.getY() + (owner.getRadius() / 2) - (radius/2);
 		this.angle = angle;
 		this.maxDistance = maxDistance;
+		hitbox = new Rectangle2D.Float(x, y, radius, radius);
+		this.damage = damage;
 		shapeRenderer = new ShapeRenderer();
 	}
 	

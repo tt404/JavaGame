@@ -489,6 +489,9 @@ public class player {
 	// [Cata] Taking damage now triggers the overhead healthbar.
 	public void damage(int amount, monster who)
 	{
+		// [Cata] Temporary death prevention. Comment the if-statement below once proper death mechanics
+		// have been added.		
+		if(curHealth - amount >= 0)
 		curHealth -= amount;
 		combatIndicatorHelper();
 	}
