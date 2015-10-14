@@ -107,6 +107,15 @@ public class monster {
 		healthBar.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
 
 		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.
+		
+		// [Cata] Render name
+		this.batch.begin();
+		this.font.setColor(Color.WHITE);
+		if((this.name.length()*this.font.getCapHeight()) < radius)
+			this.font.draw(batch, this.name, x, y);
+		else
+			this.font.draw(batch, this.name, x - ((this.name.length()*this.font.getCapHeight())/2 - (this.radius)) , y);
+		this.batch.end();
 	}
 	
 	public void update()
