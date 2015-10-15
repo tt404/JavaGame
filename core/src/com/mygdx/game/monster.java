@@ -30,6 +30,7 @@ public class monster {
 	protected float angle;
 	protected projectile defaultProjectile;
 	protected boolean canFire = true;
+	protected int tid = 0;	// [Cata] Identification, default 0.
 	
 	protected SpriteBatch batch;
 	protected BitmapFont font;
@@ -75,6 +76,11 @@ public class monster {
 	
 	public monster(MyGdxGame game, float x2, float y2)
 	{
+		this(game, x2, y2, 0);
+	}
+	
+	public monster(MyGdxGame game, float x2, float y2, int tid)
+	{
 		flags = new float[flagSize];
 		this.game = game;
 		x = x2;
@@ -90,6 +96,9 @@ public class monster {
         healthBar = new ShapeRenderer();
         flags[curState] = idle;
         angleVector = new Vector2();
+        this.tid = tid;
+        game.tidList[tid]++;
+        //System.out.println(tid);
 	}
 	
 	public void render()
@@ -301,5 +310,15 @@ public class monster {
 	// [Cata] Needed so monsters can inherit this function
 	public void fire()
 	{
+	}
+	
+	// [Cata] Tid giver
+	public void setTID(int val)
+	{
+		this.tid = val;
+	}
+
+	public int getTid() {
+		return tid;
 	}
 }

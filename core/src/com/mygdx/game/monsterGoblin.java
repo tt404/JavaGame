@@ -10,8 +10,13 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 public class monsterGoblin extends monster {
+
 	public monsterGoblin(MyGdxGame game, float x, float y) {
-		super(game, x, y);
+		this(game, x, y, 0);
+	}
+	
+	public monsterGoblin(MyGdxGame game, float x, float y, int tid) {
+		super(game, x, y, tid);
 		
 		// [Cata] the monster flags, see monsters.java for all of them
 		this.flags[behavior] = neutral;

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -14,8 +15,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	public ArrayList<player> players = new ArrayList<player>();
 	public ArrayList<projectile> projectiles = new ArrayList<projectile>();
 	public ArrayList<itemObject> itemObjects = new ArrayList<itemObject>();
+	public ArrayList<monsterSpawner> monsterSpawners = new ArrayList<monsterSpawner>();
 	public ArrayList<monster> monsters = new ArrayList<monster>();
-	
+	public int tidList[] = new int [100000]; // [Cata] tid list
 	//List of flags for monsters
 	
 	//Other stuff
@@ -25,13 +27,37 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		player negro = new player(this, 0, 5.0f, 100, 0); //f means its float
-		players.add(negro);
+		player defaultPlayer = new player(this, 0, 5.0f, 100, 0); //f means its float
+		players.add(defaultPlayer);
+		monsterSpawner test = new monsterSpawner(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY(), 64, 5.0f, "monsterGoblin", 3, 1);
 	}
 
 	public void render () {
 		renderAllEntities();
-		updateAllEntities();
+		try {
+			updateAllEntities();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void renderAllEntities()
@@ -69,7 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 	
-	public void updateAllEntities()
+	public void updateAllEntities() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException
 	{
 		for(int i = 0; i < players.size(); i++)
 		{
@@ -99,6 +125,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		
+		// [Cata] keep track of spawners
+		for(int i = 0; i < monsterSpawners.size(); i++)
+		{
+			monsterSpawners.get(i).update();
+		}
+		
 		// Do logic for projectile damage.
 		if(projectiles.size() > 0 && monsters.size() > 0)
 			doProjectileDamageLogic();
@@ -115,7 +147,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		for(int j = monsters.size() - 1; j >= 0; j--)
 			if(monsters.get(j).dead == true)
+			{				
+				tidList[monsters.get(j).getTid()]--;
 				monsters.remove(j);	
+			}
 	}
 	
 	public void doProjectileDamageLogic()
@@ -164,5 +199,22 @@ public class MyGdxGame extends ApplicationAdapter {
 	public float distance(double x1, double y1, double x2, double y2) 
 	{ 
 		return (float) Math.sqrt(((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
+	}
+	
+	// [Cata] Unique tids kek
+	public int findUniqueTID()
+	{
+		for(int i = 1; i < 100000; i++)
+		{
+			if(tidList[i] > 0)
+				return i;
+		}
+		return -1;
+	}
+	
+	public int tidCount(int val)
+	{
+		if(val < 0 || val >= 100000) return -1;
+		return tidList[val];
 	}
 }
