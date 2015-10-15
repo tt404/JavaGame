@@ -123,7 +123,7 @@ public class monster {
 		if((this.name.length()*this.font.getCapHeight()) < radius)
 			this.font.draw(batch, this.name, x, y);
 		else
-			this.font.draw(batch, this.name, x - ((this.name.length()*this.font.getCapHeight())/2 - (this.radius)) , y);
+			this.font.draw(batch, this.name, x + radius/2 - font.getBounds(name).width/2, y);
 		this.batch.end();
 	}
 	
