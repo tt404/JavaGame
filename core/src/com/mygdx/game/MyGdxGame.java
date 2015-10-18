@@ -39,12 +39,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		// [Cata] This is an example world.
 		
 		// [Cata] This makes the main room
-		obstacle besttest = new obstacle(this, 0, 576+75, 32, 1184-(576+75)); // [Cata] Top Left side
-		 besttest = new obstacle(this, 0, 0, 32, 576-75 + 32); // [Cata] Bottom Left side
+		obstacle besttest = new obstacle(this, 0, 576+75, 32, 1184-(576+75), "crudwall.png"); // [Cata] Top Left side
+		 besttest = new obstacle(this, 0, 0, 32, 576-75 + 32, "crudwall.png"); // [Cata] Bottom Left side
 			
-		besttest = new obstacle(this, 0, 1184 - 32, 1152+64, 32);	// [Cata] Top side
-		besttest = new obstacle(this, 1184, 0, 32, 1152);	// [Cata] Right side (added 32 becuz of corner case)
-		besttest = new obstacle(this, 0, 0, 1152+64, 32);	// [Cata] Bottom
+		besttest = new obstacle(this, 0, 1184 - 32, 1152+64, 32, "crudwall.png");	// [Cata] Top side
+		besttest = new obstacle(this, 1184, 0, 32, 1152, "crudwall.png");	// [Cata] Right side (added 32 becuz of corner case)
+		besttest = new obstacle(this, 0, 0, 1152+64, 32, "crudwall.png");	// [Cata] Bottom
 
 		// [Cata] This makes the spawn room
 		besttest = new obstacle(this, -900, 576+75, 900, 32); // [Cata] top

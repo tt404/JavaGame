@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +18,9 @@ public class obstacle {
 	float x;
 	float y;
 	String sprite;
+	SpriteBatch batch;
+	Texture	tex;
+	TextureRegion texReg;
 	boolean hasSprite = true;
 	int flags[];
 	protected ShapeRenderer defaultRender;
@@ -35,22 +41,33 @@ public class obstacle {
 		this.x = x;
 		this.y = y;
 		this.sprite = sprite;
-		if(sprite.length() == 0)
+		hitbox = new Rectangle2D.Float();
+		hitbox.setFrame(x, y, width, height);
+		flags = new int[maxFlags];
+
+		if(sprite.length() == 0) // [Cata] If no texture is specified draw a gray square.
 		{
 			hasSprite = false;
 			defaultRender = new ShapeRenderer();
 		}
-		hitbox = new Rectangle2D.Float();
-		hitbox.setFrame(x, y, width, height);
-		flags = new int[maxFlags];
-		game.obstacles.add(this);
+		else // [Cata] Sets up the texture.
+		{
+			batch = new SpriteBatch();
+			tex = new Texture(sprite);
+			tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+			texReg = new TextureRegion(tex);
+			texReg.setRegion(0, 0, width, height);
+		}
+		game.obstacles.add(this);			
 	}
 	
 	public void render(float x, float y)
 	{
 		if(hasSprite == true)
 		{
-			
+			batch.begin();
+			batch.draw(texReg, x, y);
+			batch.end();
 		}
 		else
 		{
