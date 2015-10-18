@@ -45,6 +45,7 @@ public class monsterGoblinMage extends monster {
 	public void update()
 	{
 		super.update();	// [Cata] runs the update function in monster.java
+	    hitbox.setFrame(x, y, radius, radius);
 	}
 	
 	public void render()
@@ -64,7 +65,6 @@ public class monsterGoblinMage extends monster {
 		
 		// [Cata] Setting up its attack.		
 		defaultProjectile = new projectile(game, this, 10, 12.0f, Color.CYAN, radius*20, angle, 10);
-		game.projectiles.add(defaultProjectile);
 		
         canFire = false;
 		Timer.schedule(new Task(){

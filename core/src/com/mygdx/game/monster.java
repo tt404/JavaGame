@@ -98,6 +98,7 @@ public class monster {
         angleVector = new Vector2();
         this.tid = tid;
         game.tidList[tid]++;
+        curPlayerTarget = null;
         //System.out.println(tid);
 	}
 	

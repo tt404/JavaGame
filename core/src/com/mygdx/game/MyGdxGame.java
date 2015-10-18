@@ -36,7 +36,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void render () {
-		renderAllEntities();
 		try {
 			updateAllEntities();
 		} catch (InstantiationException e) {
@@ -61,7 +60,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+}
 	
 	public void renderAllEntities()
 	{
@@ -139,11 +138,14 @@ public class MyGdxGame extends ApplicationAdapter {
 			monsterSpawners.get(i).update();
 		}
 		
-		// Do logic for projectile damage.
+		// [Cata] Do logic for projectile damage.
 		doProjectileDamageLogic();
 		
 		// [Cata] Projectile / Monster remover.
 		removeDeadThings();
+
+		// [Cata] After all the game logic is done, render.
+		renderAllEntities();
 	}
 	
 	public void removeDeadThings()
@@ -166,7 +168,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			for(int curMon = monsters.size() - 1; curMon >= 0; curMon--)
 			{
-				if(monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox())) System.out.println("hmm!");
 				if(projectiles.get(curProj).monster == null && monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
 				{		
 					float[] flags = monsters.get(curMon).getFlags();

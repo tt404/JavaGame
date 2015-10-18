@@ -45,6 +45,7 @@ public class monsterGoblin extends monster {
 	public void update()
 	{
 		super.update();	// [Cata] runs the update function in monster.java
+	    hitbox.setFrame(x, y, radius, radius);
 	}
 	
 	public void render()
@@ -52,7 +53,7 @@ public class monsterGoblin extends monster {
 		super.render();	// [Cata] Renders health bar.
 		
 		monsterShape.begin(ShapeType.Filled);
-		monsterShape.rect(this.x, this.y, this.radius, this.radius);
+		monsterShape.rect(x, y, radius, radius);
 		monsterShape.setColor(Color.GREEN);
 		monsterShape.end();
 	}
@@ -65,7 +66,6 @@ public class monsterGoblin extends monster {
 		
 		// [Cata] Setting up its attack.		
 		defaultProjectile = new projectile(game, this, 10, 10.0f, Color.LIGHT_GRAY, radius*4, angle, 20);
-		game.projectiles.add(defaultProjectile);
 		
         canFire = false;
 		Timer.schedule(new Task(){
