@@ -33,10 +33,6 @@ public class monsterGoblinMage extends monster {
 		this.minAttackDist = radius * 9;	// [Cata] How far does it have to be before attacking? This also stops the monster from
 											// "hugging" the player.
 		this.name = "Mage Goblin";			// [Cata] Yes.
-		
-		//Its shots...
-		defaultProjectile = new projectile(game, this, 10, 24, Color.LIGHT_GRAY, radius*2, angle, 10);
-
 
 		// [Cata] other.
 		monsterShape = new ShapeRenderer();

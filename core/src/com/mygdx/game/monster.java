@@ -36,7 +36,7 @@ public class monster {
 	protected BitmapFont font;
 
 	public ArrayList<player> attackablePlayers = new ArrayList<player>();
-	protected player curPlayerTarget;
+	protected player curPlayerTarget = null;
 	protected monster curMonsterTarget;
 	
 	protected float[] flags;
