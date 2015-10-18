@@ -105,7 +105,7 @@ public class monster {
 	public void render()
 	{	
 		// [Cata] Don't render the healthbar if monster is idle.
-		if(flags[curState] == idle) return;
+		if(curPlayerTarget == null) return;
 
 		// [Cata] we now render health bars
 		healthBar.begin(ShapeType.Filled);	// [Cata] This begins the shapemaking magic

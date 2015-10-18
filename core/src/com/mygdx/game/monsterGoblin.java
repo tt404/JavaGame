@@ -63,9 +63,7 @@ public class monsterGoblin extends monster {
 	{
 		if(canFire == false)
 			return;
-		
-		System.out.println(attackablePlayers.size());
-		
+				
 		// [Cata] Setting up its attack.		
 		defaultProjectile = new projectile(game, this, 10, 10.0f, Color.LIGHT_GRAY, radius*4, angle, 20);
 		
