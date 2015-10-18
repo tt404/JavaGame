@@ -48,7 +48,7 @@ public class itemObject {
 		return ID;
 	}
 	
-	public void render()
+	public void render(float x, float y)
 	{
 		batch.begin();
 		batch.draw(texture, x - width, y - height);

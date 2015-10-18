@@ -46,7 +46,7 @@ public class obstacle {
 		game.obstacles.add(this);
 	}
 	
-	public void render()
+	public void render(float x, float y)
 	{
 		if(hasSprite == true)
 		{
@@ -69,5 +69,15 @@ public class obstacle {
 	public Rectangle2D getHitbox()
 	{
 		return hitbox;
+	}
+
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
 	}
 }

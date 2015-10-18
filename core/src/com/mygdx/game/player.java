@@ -23,6 +23,8 @@ public class player {
 	private ShapeRenderer playerShape;
 	private float x;
 	private float y;
+	private float playerScreenX;
+	private float playerScreenY;
 	private int radius;
 	private double angle;
 	private Vector2 angleVector;
@@ -60,6 +62,8 @@ public class player {
 		radius = 48;
 		x = Gdx.graphics.getWidth() / 2;
 		y = Gdx.graphics.getHeight() / 2;
+		playerScreenX = Gdx.graphics.getWidth() / 2;
+		playerScreenY = Gdx.graphics.getHeight() / 2;
 		playerShape = new ShapeRenderer();
 		Math.sqrt((baseSpeed * baseSpeed) + (baseSpeed * baseSpeed));
 		angleVector = new Vector2();
@@ -95,26 +99,26 @@ public class player {
 		this.give(monsterSpawner, 1);
 	}
 
-	public void render() {
+	public void render(float x, float y) {
 
 		// ****************player
 		playerShape.begin(ShapeType.Filled);
 		playerShape.setColor(Color.ORANGE);
-		playerShape.rect(x, y, radius, radius);
+		playerShape.rect(playerScreenX, playerScreenY, radius, radius);
 
 		if (game.debug == true) {
 			playerShape.setColor(Color.GREEN);
-			playerShape.rectLine(x + (radius / 2), y + (radius / 2), Gdx.input.getX(), getMouse().getY(), 8);
+			playerShape.rectLine(playerScreenX + (radius / 2), playerScreenY + (radius / 2), Gdx.input.getX(), getMouse().getY(), 8);
 		}
 		
 		// [Cata] Squeeze in a healthbar render here...		
 		if(displayHealth == true)
 		{
 			playerShape.setColor(Color.RED);		// [Cata] Whatever we're gonna make is now the color red.
-			playerShape.rect(x, y + radius + 8, radius, 6); // [Cata] Places the filled red rectangle. Ie, the background.
+			playerShape.rect(playerScreenX, playerScreenY + radius + 8, radius, 6); // [Cata] Places the filled red rectangle. Ie, the background.
 
 			playerShape.setColor(Color.GREEN); 	// [Cata] Sets the current color to green. 
-			playerShape.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
+			playerShape.rect(playerScreenX, playerScreenY + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
 		}
 
 		playerShape.end();
@@ -135,8 +139,8 @@ public class player {
 
 	public void update() {
 		playerCrosshair.update();
-		angleVector.x = Gdx.input.getX() - (x + (radius / 2));
-		angleVector.y = getMouse().getY() - (y + (radius / 2));
+		angleVector.x = Gdx.input.getX() - (playerScreenX + (radius / 2));
+		angleVector.y = getMouse().getY() - (playerScreenY + (radius / 2));
 		angle = angleVector.angle();
 		
 		// [Cata] New collision detection stuf...
@@ -188,7 +192,6 @@ public class player {
 		
 		// [Cata] Check X collision....
 		temp.setFrame(tempX, y, radius, radius);
-		
 		if(game.checkObstacleCollision(temp) == false) x = tempX;
 		
 		// [Cata] Check Y collision....

@@ -20,8 +20,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	public ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	public ArrayList<monster> monsters = new ArrayList<monster>();
 	public int tidList[] = new int [100000]; // [Cata] tid list
-	//List of flags for monsters
-	
+	public player defaultPlayer; // [Cata] This is the player you play.
+	public float screenCenterX;	// [Cata] This is the "center" of the screen, ie the player.
+	public float screenCenterY;
+
 	//Other stuff
 	SpriteBatch batch;
 	Boolean debug = false;
@@ -29,7 +31,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		player defaultPlayer = new player(this, 0, 5.0f, 100, 0); //f means its float
+		screenCenterX = Gdx.graphics.getWidth() / 2;
+		screenCenterY = Gdx.graphics.getHeight() / 2;
+				
+		defaultPlayer = new player(this, 0, 5.0f, 100, 0); //f means its float
 		players.add(defaultPlayer);
 		monsterSpawner test = new monsterSpawner(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY(), 64, 5.0f, "monsterGoblin", 3, 1);
 		obstacle besttest = new obstacle(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY() + 128, 256, 32);
@@ -69,25 +74,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		for(int i = 0; i < obstacles.size(); i++)
 		{
-			obstacles.get(i).render();
+			obstacles.get(i).render(screenCenterX - (defaultPlayer.getX() - obstacles.get(i).getX()), screenCenterY - (defaultPlayer.getY() - obstacles.get(i).getY()));
 		}
 		
 		for(int i = 0; i < itemObjects.size(); i++)
 		{
 			if(players.get(0).canRender(itemObjects.get(i).getX(), itemObjects.get(i).getY()) == true)
-			itemObjects.get(i).render();
+				itemObjects.get(i).render(screenCenterX - (defaultPlayer.getX() - itemObjects.get(i).getX()), screenCenterY - (defaultPlayer.getY() - itemObjects.get(i).getY()));
 		}
 
 		// [Cata] render all projectiles first.
 		for(int i = 0; i < projectiles.size(); i++)
 		{
 			//if(projectiles.get(i).player == null)
-				projectiles.get(i).render();
+			projectiles.get(i).render(screenCenterX - (defaultPlayer.getX() - projectiles.get(i).getX()), screenCenterY - (defaultPlayer.getY() - projectiles.get(i).getY()));
 		}
 		
 		for(int i = 0; i < monsters.size(); i++)
 		{
-			monsters.get(i).render();
+			monsters.get(i).render(screenCenterX - (defaultPlayer.getX() - monsters.get(i).getX()), screenCenterY - (defaultPlayer.getY() - monsters.get(i).getY()));
 		}
 		/*
 		for(int i = 0; i < projectiles.size(); i++)
@@ -98,7 +103,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		*/
 		for(int i = 0; i < players.size(); i++)
 		{
-			players.get(i).render();
+			players.get(i).render(screenCenterX - (defaultPlayer.getX() - players.get(i).getX()), screenCenterY - (defaultPlayer.getY() - players.get(i).getY()));
 		}
 	}
 	

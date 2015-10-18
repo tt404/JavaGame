@@ -102,7 +102,7 @@ public class monster {
         //System.out.println(tid);
 	}
 	
-	public void render()
+	public void render(float x, float y)
 	{	
 		// [Cata] Don't render the healthbar if monster is idle.
 		if(curPlayerTarget == null) return;

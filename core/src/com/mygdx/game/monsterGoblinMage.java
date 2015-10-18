@@ -44,9 +44,9 @@ public class monsterGoblinMage extends monster {
 	    hitbox.setFrame(x, y, radius, radius);
 	}
 	
-	public void render()
+	public void render(float x, float y)
 	{
-		super.render();	// [Cata] Renders health bar.		
+		super.render(x, y);	// [Cata] Renders health bar.		
 		monsterShape.begin(ShapeType.Filled);
 		monsterShape.rect(this.x, this.y, this.radius, this.radius);
 		monsterShape.setColor(Color.GREEN);

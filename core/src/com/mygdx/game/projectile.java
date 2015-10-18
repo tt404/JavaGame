@@ -59,7 +59,7 @@ public class projectile {
 		game.projectiles.add(this);
 	}
 	
-	public void render()
+	public void render(float x, float y)
 	{
 		 shapeRenderer.begin(ShapeType.Filled);
 		 shapeRenderer.setColor(color);
@@ -102,5 +102,15 @@ public class projectile {
 	public void die()
 	{
 		dead = true;
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
 	}
 }
