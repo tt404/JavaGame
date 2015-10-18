@@ -158,15 +158,16 @@ public class monster {
 			    else if(centerY <= spawnY) tempY++;
 				else tempY--;
 			}
-			
-			angleVector.x = spawnX - (tempX + (radius / 2));
-			angleVector.y = spawnY - (tempY + (radius / 2));
-			angle = angleVector.angle();		
 		}
-		
-		
+				
 		if(attackablePlayers.size() == 0 || curPlayerTarget == null)
 			return;
+
+		// [Cata] Moved this here to stop monsters from shooting at the wrong position.
+		angleVector.x = curPlayerTarget.getCenterX() - (tempX + (radius / 2));
+		angleVector.y = curPlayerTarget.getCenterY() - (tempY + (radius / 2));
+		angle = angleVector.angle();		
+
 		
 		// [Cata] This is the logic for attacking.
 		if(flags[attackStyle] == withinProjectileRange)
@@ -204,10 +205,6 @@ public class monster {
 				else if(centerY <= curPlayerTarget.getCenterY()) tempY++;
 				else tempY--;
 			}
-
-			angleVector.x = curPlayerTarget.getCenterX() - (tempX + (radius / 2));
-			angleVector.y = curPlayerTarget.getCenterY() - (tempY + (radius / 2));
-			angle = angleVector.angle();		
 		}
 		
 		Rectangle2D temp = hitbox;
