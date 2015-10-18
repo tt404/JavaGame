@@ -32,12 +32,31 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		screenCenterX = Gdx.graphics.getWidth() / 2;
-		screenCenterY = Gdx.graphics.getHeight() / 2;
-				
+		screenCenterY = Gdx.graphics.getHeight() / 2;		
 		defaultPlayer = new player(this, 0, 5.0f, 100, 0); //f means its float
 		players.add(defaultPlayer);
-		monsterSpawner test = new monsterSpawner(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY(), 64, 5.0f, "monsterGoblin", 3, 1);
-		obstacle besttest = new obstacle(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY() + 128, 256, 32);
+		
+		// [Cata] This is an example world.
+		
+		// [Cata] This makes the main room
+		obstacle besttest = new obstacle(this, 0, 576+75, 32, 1184-(576+75)); // [Cata] Top Left side
+		 besttest = new obstacle(this, 0, 0, 32, 576-75 + 32); // [Cata] Bottom Left side
+			
+		besttest = new obstacle(this, 0, 1184 - 32, 1152+64, 32);	// [Cata] Top side
+		besttest = new obstacle(this, 1184, 0, 32, 1152);	// [Cata] Right side (added 32 becuz of corner case)
+		besttest = new obstacle(this, 0, 0, 1152+64, 32);	// [Cata] Bottom
+
+		// [Cata] This makes the spawn room
+		besttest = new obstacle(this, -900, 576+75, 900, 32); // [Cata] top
+		besttest = new obstacle(this, -900, 576-75, 900, 32); // [Cata] bottom
+		besttest = new obstacle(this, -900, 576-75, 32, 150); // [Cata] left		
+		
+		defaultPlayer.teleport(-900f + 48f, 576f); // [Cata] This moves the player inside the box, near the bottom left corner.
+		monsterSpawner test = new monsterSpawner(this, 576, 576, 92, 5.0f, "monsterGoblin", 3);	// [Cata] Spawns a bunch of goblins in the center
+		test = new monsterSpawner(this, 200, 200, 92, 3.0f, "monsterGoblinMage", 1);	// [Cata] Spawns a bunch of goblin mages
+		test = new monsterSpawner(this, 200, 900, 92, 3.0f, "monsterGoblinMage", 1);	// [Cata] Spawns a bunch of goblin mages
+		test = new monsterSpawner(this, 900, 900, 92, 3.0f, "monsterGoblinMage", 1);	// [Cata] Spawns a bunch of goblin mages
+		test = new monsterSpawner(this, 900, 200, 92, 3.0f, "monsterGoblinMage", 1);	// [Cata] Spawns a bunch of goblin mages
 	}
 
 	public void render () {
@@ -226,7 +245,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	{
 		for(int i = 1; i < 100000; i++)
 		{
-			if(tidList[i] > 0)
+			if(tidList[i] == 0)
 				return i;
 		}
 		return -1;

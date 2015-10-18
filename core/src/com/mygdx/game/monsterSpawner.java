@@ -17,6 +17,12 @@ public class monsterSpawner {
 	protected int tid;
 	protected int maxSpawn;
 	protected boolean canSpawn = true;
+	
+	public monsterSpawner(MyGdxGame game, float x, float y, int radius, float delay, String className, int maxSpawn)
+	{
+		this(game, x, y, radius, delay, className, maxSpawn, game.findUniqueTID());
+	}
+	
 	public monsterSpawner(MyGdxGame game, float x, float y, int radius, float delay, String className, int maxSpawn, int tid)
 	{
 		this.game = game;
@@ -26,14 +32,14 @@ public class monsterSpawner {
 		this.delay = delay;
 		this.className = className;
 		this.tid = tid;
+		game.tidList[tid]++;
 		this.maxSpawn = maxSpawn;
 		game.monsterSpawners.add(this);
-		System.out.println(this.tid);
 	}
 	
 	public void update() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException
 	{
-		if(game.tidCount(tid) < maxSpawn && canSpawn == true)
+		if(game.tidCount(tid) <= maxSpawn && canSpawn == true)
 		{		
 			canSpawn = false;
 			Timer.schedule(new Task(){

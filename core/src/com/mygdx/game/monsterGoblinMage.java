@@ -48,8 +48,8 @@ public class monsterGoblinMage extends monster {
 	{
 		super.render(x, y);	// [Cata] Renders health bar.		
 		monsterShape.begin(ShapeType.Filled);
-		monsterShape.rect(this.x, this.y, this.radius, this.radius);
-		monsterShape.setColor(Color.GREEN);
+		monsterShape.rect(x, y, this.radius, this.radius);
+		monsterShape.setColor(Color.NAVY);
 		monsterShape.end();
 	}
 	

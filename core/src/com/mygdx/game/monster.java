@@ -104,6 +104,16 @@ public class monster {
 	
 	public void render(float x, float y)
 	{	
+		// [Cata] Render name
+		this.batch.begin();
+		this.font.setColor(Color.WHITE);
+		if((this.name.length()*this.font.getCapHeight()) < radius)
+			this.font.draw(batch, this.name, x, y);
+		else
+			this.font.draw(batch, this.name, x + radius/2 - font.getBounds(name).width/2, y);
+		this.batch.end();
+
+		
 		// [Cata] Don't render the healthbar if monster is idle.
 		if(curPlayerTarget == null) return;
 
@@ -116,16 +126,7 @@ public class monster {
 		healthBar.setColor(Color.GREEN); 	// [Cata] Sets the current color to green. 
 		healthBar.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
 
-		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.
-		
-		// [Cata] Render name
-		this.batch.begin();
-		this.font.setColor(Color.WHITE);
-		if((this.name.length()*this.font.getCapHeight()) < radius)
-			this.font.draw(batch, this.name, x, y);
-		else
-			this.font.draw(batch, this.name, x + radius/2 - font.getBounds(name).width/2, y);
-		this.batch.end();
+		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.		
 	}
 	
 	public void update()

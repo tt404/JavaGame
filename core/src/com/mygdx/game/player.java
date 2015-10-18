@@ -519,4 +519,10 @@ public class player {
 	{
 		healthTimer.schedule(healthTimerTask, 3.0f);		
 	}
+	
+	public void teleport(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
 }
