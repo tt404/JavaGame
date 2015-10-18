@@ -28,7 +28,7 @@ public class monsterGoblin extends monster {
 		this.baseSpeed = 2.4f;  			// [Cata] Speed?
 		this.baseHealth = 40;				// [Cata] Spawn health.
 		this.curHealth = 40;				// [Cata] Sets it's current health to the spawn health.
-		this.radius = 38;					// [Cata] How fat is this monster?
+		this.radius = 52;					// [Cata] How fat is this monster?
 		this.maxRoamDist = 640; 			// [Cata] How far can it leave spawn to go kill people?
 		this.minAttackDist = radius * 2;	// [Cata] How far does it have to be before attacking? This also stops the monster from
 											// "hugging" the player.
