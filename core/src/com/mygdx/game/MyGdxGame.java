@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public ArrayList<projectile> projectiles = new ArrayList<projectile>();
 	public ArrayList<itemObject> itemObjects = new ArrayList<itemObject>();
 	public ArrayList<monsterSpawner> monsterSpawners = new ArrayList<monsterSpawner>();
+	public ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	public ArrayList<monster> monsters = new ArrayList<monster>();
 	public int tidList[] = new int [100000]; // [Cata] tid list
 	//List of flags for monsters
@@ -30,6 +32,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		player defaultPlayer = new player(this, 0, 5.0f, 100, 0); //f means its float
 		players.add(defaultPlayer);
 		monsterSpawner test = new monsterSpawner(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY(), 64, 5.0f, "monsterGoblin", 3, 1);
+		obstacle besttest = new obstacle(this, defaultPlayer.getCenterX(), defaultPlayer.getCenterY() + 128, 256, 32);
 	}
 
 	public void render () {
@@ -64,6 +67,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		for(int i = 0; i < obstacles.size(); i++)
+		{
+			obstacles.get(i).render();
+		}
 		
 		for(int i = 0; i < itemObjects.size(); i++)
 		{
@@ -132,8 +140,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		
 		// Do logic for projectile damage.
-		if(projectiles.size() > 0 && monsters.size() > 0)
-			doProjectileDamageLogic();
+		doProjectileDamageLogic();
 		
 		// [Cata] Projectile / Monster remover.
 		removeDeadThings();
@@ -159,8 +166,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			for(int curMon = monsters.size() - 1; curMon >= 0; curMon--)
 			{
+				if(monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox())) System.out.println("hmm!");
 				if(projectiles.get(curProj).monster == null && monsters.get(curMon).getHitbox().intersects(projectiles.get(curProj).getHitbox()))
-				{
+				{		
 					float[] flags = monsters.get(curMon).getFlags();
 					
 					//dont do damage if monster is invulnerable.
@@ -182,6 +190,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					//kill monster if its health is low
 					if(monsters.get(curMon).getCurHealth() <= 0)
 						monsters.get(curMon).die();
+					
 				}
 			}
 			for(int curPlayer = players.size() - 1; curPlayer >= 0; curPlayer--)
@@ -192,6 +201,11 @@ public class MyGdxGame extends ApplicationAdapter {
 					projectiles.get(curProj).die();	
 					//TODO: Kill the player if his health falls too low.
 				}				
+			}
+			for(int curObs = 0; curObs < obstacles.size(); curObs++)
+			{
+				if(projectiles.get(curProj).getHitbox().intersects(obstacles.get(curObs).getHitbox()))
+					projectiles.get(curProj).die();
 			}
 		}	
 	}
@@ -210,6 +224,16 @@ public class MyGdxGame extends ApplicationAdapter {
 				return i;
 		}
 		return -1;
+	}
+	
+	public boolean checkObstacleCollision(Rectangle2D thing)
+	{
+		for(int i = 0; i < obstacles.size(); i++)
+			if(obstacles.get(i).getHitbox().intersects(thing))
+			{
+				return true;
+			}
+		return false;
 	}
 	
 	public int tidCount(int val)

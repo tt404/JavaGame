@@ -129,8 +129,10 @@ public class monster {
 	
 	public void update()
 	{
-		centerX = x + radius/2;
-		centerY = y + radius/2;
+		float tempX = x;
+		float tempY = y;
+		centerX = tempX + radius/2;
+		centerY = tempY + radius/2;
 		
 		// [Cata] if our target ran away, go after the next one closest to us.
 		if(attackablePlayers.size() > 0)
@@ -148,16 +150,16 @@ public class monster {
 			for(int i = 0; i < baseSpeed; i++)
 			{
 				if(centerX <= spawnX + 1 && centerX >= spawnX - 1) {}
-			    else if(centerX <= spawnX) x++;
-				else x--;
+			    else if(centerX <= spawnX) tempX++;
+				else tempX--;
 
 				if(centerY <= spawnY + 1 && centerY >= spawnY - 1) {}
-			    else if(centerY <= spawnY) y++;
-				else y--;
+			    else if(centerY <= spawnY) tempY++;
+				else tempY--;
 			}
 			
-			angleVector.x = spawnX - (x + (radius / 2));
-			angleVector.y = spawnY - (y + (radius / 2));
+			angleVector.x = spawnX - (tempX + (radius / 2));
+			angleVector.y = spawnY - (tempY + (radius / 2));
 			angle = angleVector.angle();		
 		}
 		
@@ -194,18 +196,31 @@ public class monster {
 					break;
 				
 				if(centerX <= curPlayerTarget.getCenterX() + 1 && centerX >= curPlayerTarget.getCenterX() - 1) {}
-				else if(centerX <= curPlayerTarget.getCenterX()) x++;
-				else x--;
+				else if(centerX <= curPlayerTarget.getCenterX()) tempX++;
+				else tempX--;
 				
 				if(centerY <= curPlayerTarget.getCenterY() + 1 && centerY >= curPlayerTarget.getCenterY() - 1) {}
-				else if(centerY <= curPlayerTarget.getCenterY()) y++;
-				else y--;
+				else if(centerY <= curPlayerTarget.getCenterY()) tempY++;
+				else tempY--;
 			}
 
-			angleVector.x = curPlayerTarget.getCenterX() - (x + (radius / 2));
-			angleVector.y = curPlayerTarget.getCenterY() - (y + (radius / 2));
+			angleVector.x = curPlayerTarget.getCenterX() - (tempX + (radius / 2));
+			angleVector.y = curPlayerTarget.getCenterY() - (tempY + (radius / 2));
 			angle = angleVector.angle();		
 		}
+		
+		Rectangle2D temp = hitbox;
+		
+		// [Cata] Check X collision....
+		temp.setFrame(tempX, y, radius, radius);
+		if(!game.checkObstacleCollision(temp)) x = tempX;
+		
+		// [Cata] Check Y collision....
+		temp.setFrame(x, tempY, radius, radius);
+		if(!game.checkObstacleCollision(temp)) y = tempY;
+		
+		// [Cata] Set the hitbox based on collisions.		
+		hitbox.setFrame(x, y, radius, radius);
 	}
 	
 	// [Cata] removes targets from pool if they ran away, switches target, etc...

@@ -20,11 +20,8 @@ public class inventoryRustySword extends inventory {
 	{
 		if(owner.checkEquipped(this) == false) return;
         projectile weaponProjectile = new projectile(game, owner, 8, 24.0f, Color.WHITE, 112.0f, owner.getAngle(), 10);
-        game.projectiles.add(weaponProjectile);
         weaponProjectile = new projectile(game, owner, 8, 24.0f, Color.WHITE, 96.0f, owner.getAngle() + 7, 10);
-        game.projectiles.add(weaponProjectile);
         weaponProjectile = new projectile(game, owner, 8, 24.0f, Color.WHITE, 96.0f, owner.getAngle() - 7, 10);
-        game.projectiles.add(weaponProjectile);
         canFire = false;
 		Timer.schedule(new Task(){
 		    public void run() {

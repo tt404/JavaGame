@@ -21,7 +21,6 @@ public class inventoryLaserGun extends inventory {
 		if(owner.checkEquipped(this) == false) return;
 		//System.out.print("kek");
         projectile weaponProjectile = new projectile(game, owner, 8, 16.0f, Color.RED, 500.0f, owner.getAngle(), 10);
-        game.projectiles.add(weaponProjectile);
         canFire = false;
 		Timer.schedule(new Task(){
 		    public void run() {

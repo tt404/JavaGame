@@ -45,7 +45,6 @@ public class monsterGoblinMage extends monster {
 	public void update()
 	{
 		super.update();	// [Cata] runs the update function in monster.java
-		this.hitbox.setFrame(x, y, radius, radius);
 	}
 	
 	public void render()

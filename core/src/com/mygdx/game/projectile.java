@@ -39,6 +39,7 @@ public class projectile {
 		this.damage = damage;
 		hitbox = new Rectangle2D.Float(x, y, radius, radius);
 		shapeRenderer = new ShapeRenderer();
+		game.projectiles.add(this);
 	}
 	
 	public projectile(MyGdxGame game2, monster owner, int radius, float speed, Color color, float maxDistance, float angle, int damage)
@@ -55,6 +56,7 @@ public class projectile {
 		hitbox = new Rectangle2D.Float(x, y, radius, radius);
 		this.damage = damage;
 		shapeRenderer = new ShapeRenderer();
+		game.projectiles.add(this);
 	}
 	
 	public void render()

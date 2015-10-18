@@ -138,6 +138,10 @@ public class player {
 		angleVector.x = Gdx.input.getX() - (x + (radius / 2));
 		angleVector.y = getMouse().getY() - (y + (radius / 2));
 		angle = angleVector.angle();
+		
+		// [Cata] New collision detection stuf...
+		float tempX = x;
+		float tempY = y;
 
 		for (int i = 0; i < playerInventorySquares.size(); i++) {
 			playerInventorySquares.get(i).update();
@@ -146,30 +150,30 @@ public class player {
 		// System.out.println(angle);
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			if (Gdx.input.isKeyPressed(Keys.D)) {
-				x += Math.sin(Math.toRadians(45)) * baseSpeed;
-				y += Math.cos(Math.toRadians(45)) * baseSpeed;
+				tempX += Math.sin(Math.toRadians(45)) * baseSpeed;
+				tempY += Math.cos(Math.toRadians(45)) * baseSpeed;
 			} else if (Gdx.input.isKeyPressed(Keys.A)) {
-				x += Math.sin(Math.toRadians(315)) * baseSpeed;
-				y += Math.cos(Math.toRadians(315)) * baseSpeed;
+				tempX += Math.sin(Math.toRadians(315)) * baseSpeed;
+				tempY += Math.cos(Math.toRadians(315)) * baseSpeed;
 			} else if (Gdx.input.isKeyPressed(Keys.W)) {
-				y += baseSpeed;
+				tempY += baseSpeed;
 			}
 
 			// do nothing otherwise
 		} else if (Gdx.input.isKeyPressed(Keys.S)) {
 			if (Gdx.input.isKeyPressed(Keys.D)) {
-				x += Math.sin(Math.toRadians(135)) * baseSpeed;
-				y += Math.cos(Math.toRadians(135)) * baseSpeed;
+				tempX += Math.sin(Math.toRadians(135)) * baseSpeed;
+				tempY += Math.cos(Math.toRadians(135)) * baseSpeed;
 			} else if (Gdx.input.isKeyPressed(Keys.A)) {
-				x += Math.sin(Math.toRadians(225)) * baseSpeed;
-				y += Math.cos(Math.toRadians(225)) * baseSpeed;
+				tempX += Math.sin(Math.toRadians(225)) * baseSpeed;
+				tempY += Math.cos(Math.toRadians(225)) * baseSpeed;
 			} else if (Gdx.input.isKeyPressed(Keys.S)) {
-				y -= baseSpeed;
+				tempY -= baseSpeed;
 			}
 		} else if (Gdx.input.isKeyPressed(Keys.A)) {
-			x -= baseSpeed;
+			tempX -= baseSpeed;
 		} else if (Gdx.input.isKeyPressed(Keys.D)) {
-			x += baseSpeed;
+			tempX += baseSpeed;
 		}
 
 		if (Gdx.input.isTouched()) {
@@ -180,6 +184,18 @@ public class player {
 			playerInventorySquares.get(i).update();
 		}
 		
+		Rectangle2D temp = hitbox;
+		
+		// [Cata] Check X collision....
+		temp.setFrame(tempX, y, radius, radius);
+		
+		if(game.checkObstacleCollision(temp) == false) x = tempX;
+		
+		// [Cata] Check Y collision....
+		temp.setFrame(x, tempY, radius, radius);
+		if(game.checkObstacleCollision(temp) == false) y = tempY;
+		
+		// [Cata] Set the hitbox based on collisions.		
 		hitbox.setFrame(x, y, radius, radius);
 	}
 
