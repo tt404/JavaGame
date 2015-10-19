@@ -59,7 +59,7 @@ public class player {
 		// *******initializes the player
 		this.baseSpeed = baseSpeed;
 		this.baseHealth = this.curHealth = health;	// [Cata] base health is ur max health, cur health is ur current health.
-		radius = 48;
+		radius = 72;
 		x = Gdx.graphics.getWidth() / 2;
 		y = Gdx.graphics.getHeight() / 2;
 		playerScreenX = Gdx.graphics.getWidth() / 2;

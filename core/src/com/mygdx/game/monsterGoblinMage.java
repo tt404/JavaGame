@@ -32,7 +32,7 @@ public class monsterGoblinMage extends monster {
 		this.curHealth = 25;				// [Cata] Sets it's current health to the spawn health.
 		this.radius = 96;					// [Cata] How fat is this monster?
 		this.maxRoamDist = 900; 			// [Cata] How far can it leave spawn to go kill people?
-		this.minAttackDist = radius * 9;	// [Cata] How far does it have to be before attacking? This also stops the monster from
+		this.minAttackDist = radius * 4;	// [Cata] How far does it have to be before attacking? This also stops the monster from
 											// "hugging" the player.
 		this.name = "Mage Goblin";			// [Cata] Yes.
 
