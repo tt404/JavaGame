@@ -37,7 +37,6 @@ public class monsterGoblin extends monster {
 		
 		// [Cata] This sets up our sprite.
 		tex = new Texture("GobWar0.png");
-		tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		texReg = new TextureRegion(tex);
 		texReg.setRegion(0, 0, radius, radius);
 	}
