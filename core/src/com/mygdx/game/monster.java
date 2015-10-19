@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -34,6 +36,9 @@ public class monster {
 	
 	protected SpriteBatch batch;
 	protected BitmapFont font;
+	Texture	tex;	// [Cata] Needed for rendering sprites.
+	TextureRegion texReg;
+
 
 	public ArrayList<player> attackablePlayers = new ArrayList<player>();
 	protected player curPlayerTarget = null;
@@ -90,16 +95,17 @@ public class monster {
 		hitbox = new Rectangle2D.Float();
 		hitbox.setFrame(x, y, radius, radius);
 		font = new BitmapFont();
-		batch = new SpriteBatch();
-        game.monsters.add(this);
+	     game.monsters.add(this);
         dead = false;
         healthBar = new ShapeRenderer();
         flags[curState] = idle;
         angleVector = new Vector2();
         this.tid = tid;
         game.tidList[tid]++;
-        curPlayerTarget = null;
-        //System.out.println(tid);
+        curPlayerTarget = null;			
+        
+        // [Cata] Needed to render sprites.
+        batch = new SpriteBatch();
 	}
 	
 	public void render(float x, float y)
