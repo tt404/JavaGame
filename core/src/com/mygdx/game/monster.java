@@ -141,6 +141,7 @@ public class monster {
 		float tempY = y;
 		centerX = tempX + radius/2;
 		centerY = tempY + radius/2;
+		Rectangle2D temp = hitbox;
 		
 		// [Cata] if our target ran away, go after the next one closest to us.
 		if(attackablePlayers.size() > 0)
@@ -165,6 +166,17 @@ public class monster {
 			    else if(centerY <= spawnY) tempY++;
 				else tempY--;
 			}
+
+			// [Cata] Check X collision....
+			temp.setFrame(tempX, y, radius, radius);
+			if(!game.checkObstacleCollision(temp)) x = tempX;
+			
+			// [Cata] Check Y collision....
+			temp.setFrame(x, tempY, radius, radius);
+			if(!game.checkObstacleCollision(temp)) y = tempY;
+			
+			// [Cata] Set the hitbox based on collisions.		
+			hitbox.setFrame(x, y, radius, radius);			
 		}
 				
 		if(attackablePlayers.size() == 0 || curPlayerTarget == null)
@@ -213,8 +225,6 @@ public class monster {
 				else tempY--;
 			}
 		}
-		
-		Rectangle2D temp = hitbox;
 		
 		// [Cata] Check X collision....
 		temp.setFrame(tempX, y, radius, radius);
