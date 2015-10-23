@@ -34,10 +34,12 @@ public class monster {
 	protected boolean canFire = true;
 	protected int tid = 0;	// [Cata] Identification, default 0.
 	
+	
 	protected SpriteBatch batch;
 	protected BitmapFont font;
 	Texture	tex;	// [Cata] Needed for rendering sprites.
 	TextureRegion texReg;
+	boolean textureFlipped = true; // [Cata] Texture is flipped if the monster is facing left.
 
 
 	public ArrayList<player> attackablePlayers = new ArrayList<player>();
@@ -132,7 +134,20 @@ public class monster {
 		healthBar.setColor(Color.GREEN); 	// [Cata] Sets the current color to green. 
 		healthBar.rect(x, y + radius + 8, radius * (((float)curHealth) / ((float)baseHealth)), 6);	// [Cata] creates the green part of the healthbar.
 
-		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.		
+		healthBar.end();	// [Cata] Done rendering the healthbar. Libgdx requires you to do this for some reason.	
+		
+		// [Cata] Texture flipping.
+		if(textureFlipped == true && (this.angle < 90 || this.angle > 270))
+		{
+			texReg.flip(true, false);
+			textureFlipped = false;
+		}
+		else if(textureFlipped == false && this.angle >= 90 && this.angle <= 270) 
+		{
+			texReg.flip(true, false);		
+			textureFlipped = true;
+		}
+		
 	}
 	
 	public void update()
@@ -185,8 +200,7 @@ public class monster {
 		// [Cata] Moved this here to stop monsters from shooting at the wrong position.
 		angleVector.x = curPlayerTarget.getCenterX() - (tempX + (radius / 2));
 		angleVector.y = curPlayerTarget.getCenterY() - (tempY + (radius / 2));
-		angle = angleVector.angle();		
-
+		angle = angleVector.angle();
 		
 		// [Cata] This is the logic for attacking.
 		if(flags[attackStyle] == withinProjectileRange)

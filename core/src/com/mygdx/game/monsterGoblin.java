@@ -50,7 +50,7 @@ public class monsterGoblin extends monster {
 	public void render(float x, float y)
 	{
 		super.render(x, y);	// [Cata] Renders health bar.
-
+		
 		// [Cata] Draws the goblin sprite.
 		batch.begin();
 		batch.draw(texReg, x, y);
