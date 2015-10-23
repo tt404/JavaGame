@@ -40,11 +40,10 @@ public class mouse {
 	{
 		batch.begin();
 	
-		if(inventoryBackground.isPointTouching(x, y) == true){}
-		
+		if(inventoryBackground.isPointTouching(x, y) == true){}		
 		else
 		{
-			if(curObjectTouched == null)
+			if(curObjectTouched == null && owner.isMouseTouchingUI() == false && isDragging() == false)
 			batch.draw(image, 
 						Gdx.input.getX() - (image.getRegionWidth() / 2), 
 						-Gdx.input.getY() + Gdx.graphics.getHeight() - (image.getRegionHeight() / 2),
@@ -72,8 +71,7 @@ public class mouse {
 	}
 	
 	public void update()
-	{
-		
+	{	
 		//******************
 		// Update XY Coords.
 		//******************

@@ -135,6 +135,7 @@ public class InventorySlot {
 			{
 				endedHere = true;
 				isDragging = false;
+				owner.getMouse().setDragging(false);
 /*				
 				if(startedHere == false)
 				{
@@ -164,6 +165,7 @@ public class InventorySlot {
 		{
 			isDragging = false;
 			endedHere = false;
+			owner.getMouse().setDragging(false);
 			
 			if(equipped == false				&&
 			   item.ID != 0						&&
