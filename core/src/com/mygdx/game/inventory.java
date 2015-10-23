@@ -21,6 +21,15 @@ public class inventory {
 		this.name = "";
 	}
 	
+	// [Cata] this means that the item doesn't have a "owner", as in it is on the floor and NOT in the inventory.
+	public inventory(MyGdxGame myGdxGame)
+	{
+		this.game = myGdxGame;
+		this.owner = null;
+		this.ID = 0;
+		this.name = "";
+	}
+	
 	public void fire()
 	{
 		//System.out.println("pew pew");
