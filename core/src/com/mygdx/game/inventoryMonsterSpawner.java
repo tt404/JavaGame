@@ -5,6 +5,11 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 public class inventoryMonsterSpawner extends inventory {
 
+	public inventoryMonsterSpawner(MyGdxGame myGdxGame)
+	{
+		this(myGdxGame, null);
+	}
+	
 	public inventoryMonsterSpawner(MyGdxGame myGdxGame, player owner) {
 		super(myGdxGame, owner);
 		this.ID = 1;

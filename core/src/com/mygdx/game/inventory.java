@@ -13,19 +13,17 @@ public class inventory {
 	protected boolean canDrop = false;
 	protected boolean canUse = false;
 	protected boolean canAnalyze = false;
+
+	// [Cata] this means that the item doesn't have a "owner", as in it is on the floor and NOT in the inventory.
+	public inventory(MyGdxGame myGdxGame)
+	{
+		this(myGdxGame, null);
+	}
+
 	public inventory(MyGdxGame myGdxGame, player owner)
 	{
 		this.game = myGdxGame;
 		this.owner = owner;
-		this.ID = 0;
-		this.name = "";
-	}
-	
-	// [Cata] this means that the item doesn't have a "owner", as in it is on the floor and NOT in the inventory.
-	public inventory(MyGdxGame myGdxGame)
-	{
-		this.game = myGdxGame;
-		this.owner = null;
 		this.ID = 0;
 		this.name = "";
 	}

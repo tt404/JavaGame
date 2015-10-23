@@ -6,6 +6,11 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 public class inventoryRustySword extends inventory {
 
+	public inventoryRustySword(MyGdxGame myGdxGame)
+	{
+		this(myGdxGame, null);
+	}
+	
 	public inventoryRustySword(MyGdxGame myGdxGame, player owner) {
 		super(myGdxGame, owner);
 		this.ID = 2;

@@ -6,6 +6,11 @@ import com.badlogic.gdx.utils.Timer.Task;
 
 public class inventoryLaserGun extends inventory {
 
+	public inventoryLaserGun(MyGdxGame myGdxGame)
+	{
+		this(myGdxGame, null);
+	}
+
 	public inventoryLaserGun(MyGdxGame myGdxGame, player owner) {
 		super(myGdxGame, owner);
 		this.ID = 1;
