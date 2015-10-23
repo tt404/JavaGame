@@ -329,6 +329,9 @@ public class monster {
 	public void setPlayerTarget (player target)
 	{
 		curPlayerTarget = target;
+		angleVector.x = curPlayerTarget.getCenterX() - (x + (radius / 2));
+		angleVector.y = curPlayerTarget.getCenterY() - (y + (radius / 2));
+		angle = angleVector.angle();
 	}
 	
 	public float[] getFlags()
