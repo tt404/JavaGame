@@ -34,7 +34,8 @@ public class inventory {
 
 		if(canFire == true && 
 		   owner.isMouseTouchingUI() == false &&
-		   owner.getMouse().isMouseTouchingDroppedItems() == false)
+		   owner.getMouse().isMouseTouchingDroppedItems() == false &&
+		   owner.getMouse().isDragging() == false)
 		{
 			//System.out.println("lol");
 			fireGo();
