@@ -17,6 +17,7 @@ public class mouse {
 	private player owner;
 	private UIbackground inventoryBackground;
 	private boolean dragging = false;
+	private boolean pickedItemUp = false;
 	protected float x;
 	protected float y;
 	private MyGdxGame game;
@@ -126,6 +127,7 @@ public class mouse {
 					//	in one click.
 					owner.setPickupDelay(0.1f);
 					curObjectTouched.pickup(owner);
+					pickedItemUp = true; // [Cata] to prevent players from firing their weapon while picking items up.
 					curObjectTouched = null;
 				}
 				
@@ -136,6 +138,16 @@ public class mouse {
 
 		//	We aren't touching an object if we've gotten to this point.
 		curObjectTouched = null;
+	}
+	
+	public boolean getPickedItemUpStatus()
+	{
+		return pickedItemUp;
+	}
+	
+	public void setPickedItemUpStatus(boolean x)
+	{
+		pickedItemUp = x;
 	}
 	
 	public void updateBackgroundInfo()

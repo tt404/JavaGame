@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public class inventory {
 	protected MyGdxGame game;
@@ -31,7 +33,18 @@ public class inventory {
 	public void fire()
 	{
 		//System.out.println("pew pew");
-
+		// [Cata] Players no longer fire while picking items up.
+		if(owner.getMouse().getPickedItemUpStatus() == true)
+		{
+			Timer.schedule(new Task(){
+			    public void run() {
+					owner.getMouse().setPickedItemUpStatus(false);
+					}
+			   
+			}, 0.1f);
+			return;
+		}
+		
 		if(canFire == true && 
 		   owner.isMouseTouchingUI() == false &&
 		   owner.getMouse().isMouseTouchingDroppedItems() == false &&
