@@ -21,6 +21,8 @@ public class itemObject {
 	private SpriteBatch batch;
 	private float x;
 	private float y;
+	private float renderX;
+	private float renderY;
 	private float width = 32;
 	private float height = 32;
 	private ShapeRenderer shapeRenderer;
@@ -36,6 +38,7 @@ public class itemObject {
 		this.texture = new Texture(item.getInventorySprite());
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
+		myGdxGame.itemObjects.add(this);	// [Cata] dropped items auto-add to the game.
 	}
 	
 	public boolean canUse()
@@ -50,6 +53,8 @@ public class itemObject {
 	
 	public void render(float x, float y)
 	{
+		this.renderX = x;
+		this.renderY = y;
 		batch.begin();
 		batch.draw(texture, x - width, y - height);
 		batch.end();
@@ -92,7 +97,7 @@ public class itemObject {
 	{
 		return name;
 	}
-	
+
 	public float getX()
 	{
 		return x;
@@ -101,6 +106,16 @@ public class itemObject {
 	public float getY()
 	{
 		return y;
+	}
+	
+	public float getRenderX()
+	{
+		return renderX;
+	}
+	
+	public float getRenderY()
+	{
+		return renderY;
 	}
 
 	public float getWidth()

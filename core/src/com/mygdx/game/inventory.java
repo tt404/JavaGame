@@ -63,7 +63,6 @@ public class inventory {
 		if(canDrop == true)
 		{
 			itemObject droppedItem = new itemObject(game, this, owner.getCenterX() + 16, owner.getCenterY() + 16);
-			game.itemObjects.add(droppedItem);
 		}
 	}
 	

@@ -111,8 +111,8 @@ public class mouse {
 		for(int i = 0; i < game.itemObjects.size(); i++)
 		{
 			if	(	isMouseTouching(
-								game.itemObjects.get(i).getX(), 
-								game.itemObjects.get(i).getY(), 
+								game.itemObjects.get(i).getRenderX(), 
+								game.itemObjects.get(i).getRenderY(), 
 								game.itemObjects.get(i).getWidth(),
 								game.itemObjects.get(i).getHeight())
 				)
